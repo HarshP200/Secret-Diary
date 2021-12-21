@@ -1,0 +1,23 @@
+<%- include('partials/header'); -%>
+
+    <h1 style="font-size: 35px;">Your Diary</h1>
+
+    <% stories.reverse().forEach(function(story){ %>
+        <h1>
+            <%= story.title %>
+        </h1>
+        <p>
+            <%= story.content %>
+        </p>
+
+
+        <% if(story.image != "undefined"){%>
+            <div style="text-align:center;">
+                <img src="/uploads/<%=story.image%>" alt="" class="userImg">
+            </div>
+
+            <% } %>
+
+                <% }); %>
+
+                    <%- include('partials/footer'); -%>
