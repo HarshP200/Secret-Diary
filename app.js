@@ -65,9 +65,6 @@ const storySchema = {
     image: String
 };
 
-
-var user_name = "";
-
 const story1 = mongoose.model("tempStory", storySchema);
 
 const StoryListSchema = {
@@ -146,6 +143,7 @@ app.get('/home', function(req, res) {
 });
 
 app.get('/diary', function(req, res) {
+
     if (!req.isAuthenticated()) {
         res.redirect("/login");
     } else {
@@ -153,7 +151,7 @@ app.get('/diary', function(req, res) {
         day = date.getDateAndTime();
 
         List.findOne({
-            name: user_name
+            name: req.user.username
         }, function(err, result) {
 
             if (err) {
@@ -200,8 +198,6 @@ app.post('/register', function(req, res) {
 
 app.post('/login', function(req, res) {
 
-    user_name = req.body.username;
-
     const user = new User({
         username: req.body.username,
         password: req.body.password
@@ -221,6 +217,9 @@ app.post('/login', function(req, res) {
 
 
 app.post('/home', (req, res) => {
+
+    const user_name = req.user.username;
+
     upload(req, res, (err) => {
         day = date.getDateAndTime();
         if (err) {
