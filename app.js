@@ -131,7 +131,9 @@ app.get('/register', function(req, res) {
     if (req.isAuthenticated()) {
         res.redirect("/home");
     } else {
-        res.render("register");
+        res.render("register", {
+            msg: ""
+        });
     }
 });
 
@@ -169,7 +171,7 @@ app.get('/diary', function(req, res) {
             if (err) {
                 res.render('home'), {
                     day: day,
-                    msg: err
+                    msg: err.message
                 }
             }
 
@@ -196,11 +198,10 @@ app.post('/register', function(req, res) {
 
     User.register({ username: req.body.username }, req.body.password, function(err, user) {
         if (err) {
-            console.log(err);
-            res.redirect('/register');
+            res.render('register', { msg: err.message });
         } else {
             passport.authenticate("local")(req, res, function() {
-                res.redirect('/login');
+                res.redirect('/home');
             });
         }
     });
@@ -237,7 +238,7 @@ app.post('/home', (req, res) => {
         if (err) {
             res.render('home', {
                 day: day,
-                msg: err
+                msg: err.message
             });
         } else {
 
@@ -257,7 +258,7 @@ app.post('/home', (req, res) => {
                         if (err) {
                             res.render('home', {
                                 day: day,
-                                msg: err
+                                msg: err.message
                             });
                         }
 
@@ -281,7 +282,7 @@ app.post('/home', (req, res) => {
                                 } else {
                                     res.render('home', {
                                         day: day,
-                                        msg: err
+                                        msg: err.message
                                     });
                                 }
                             });
@@ -309,7 +310,7 @@ app.post('/home', (req, res) => {
                     if (err) {
                         res.render('home', {
                             day: day,
-                            msg: err
+                            msg: err.message
                         });
                     }
                     const story = new story1({
@@ -333,7 +334,7 @@ app.post('/home', (req, res) => {
                             } else {
                                 res.render('home', {
                                     day: day,
-                                    msg: err
+                                    msg: err.message
                                 });
                             }
                         });
